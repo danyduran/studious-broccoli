@@ -4,11 +4,15 @@ from typing import List, Set, Dict
 
 class Stats:
     """
-    this class is used to build stats from the data capture object
-
+    Stats class to calculate the number of elements less than, between and greater than a given number
     """
 
     def __init__(self, nums: Dict[int, int], unique_nums: Set[int]):
+        """
+        Initialize the stats object
+        :param nums:
+        :param unique_nums:
+        """
         self.__nums = nums
         self.__unique_nums = sorted(unique_nums)
 
@@ -16,9 +20,8 @@ class Stats:
 
     def __build_prefix_sum(self) -> List[int]:
         """
-        Build prefix sum and indexes
-        Time Complexity: O(n)
-        :return:
+        Build prefix sum array
+        :return: prefix sum array
         """
         prefix_sum = [0] * (max(self.__unique_nums) + 1)
 
@@ -32,7 +35,7 @@ class Stats:
         Return the number of elements less than num
         Time Complexity: O(1)
         :param num:
-        :return:
+        :return: number of elements less than num
         """
         if num >= len(self.__prefix_sum):
             return self.__prefix_sum[-1]
@@ -45,8 +48,10 @@ class Stats:
         Time Complexity: O(1)
         :param num1:
         :param num2:
-        :return:
+        :return: number of elements between num1 and num2
         """
+        if num1 > num2:
+            raise ValueError("First number should be less than second number")
 
         return self.__prefix_sum[num2] - self.__prefix_sum[(num1 - 1)]
 
@@ -55,7 +60,7 @@ class Stats:
         Return the number of elements greater than num
         Time Complexity: O(1)
         :param num:
-        :return:
+        :return: number of elements greater than num
         """
 
         if num >= len(self.__prefix_sum):
@@ -66,21 +71,20 @@ class Stats:
 
 class DataCapture:
     """
-    this class is used to capture data, the only purpose is capture data
-    this class is not responsible for any other functionality
-    following the single responsibility principle
+    Data capture class to capture the data and generate stats
     """
-
     def __init__(self):
+        """
+        Initialize the data capture object
+        """
         self.__nums: Dict[int, int] = defaultdict(int)
         self.__unique_nums: Set[int] = set()
 
-    def add(self, num: int):
+    def add(self, num: int) -> None:
         """
-        Adds a number to the data capture object
-        Time Complexity: O(1)
+        Add a number to the data capture object
         :param num:
-        :return:
+        :return: None
         """
         if num < 0:
             raise ValueError("Negative numbers are not allowed")
@@ -90,8 +94,8 @@ class DataCapture:
 
     def build_starts(self) -> Stats:
         """
-        Generate stats from the data capture object
-        :return:
+        Build stats object
+        :return: stats object
         """
         return Stats(self.__nums, self.__unique_nums)
 

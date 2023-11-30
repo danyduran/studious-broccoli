@@ -31,3 +31,9 @@ def test_greater(data):
     assert stats.greater(5) == 2
     assert stats.greater(10) == 0
     assert stats.greater(1) == 5
+
+
+def test_first_num_greater_than_second_num(data):
+    stats = Stats(*data)
+    with pytest.raises(ValueError):
+        stats.between(10, 5)
