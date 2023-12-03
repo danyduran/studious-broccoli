@@ -1,4 +1,10 @@
 import pytest
+
+from exceptions import (
+    InvalidInputException,
+    NegativeNumberException,
+    NoDataAvailableException,
+)
 from main import DataCapture, Stats
 
 
@@ -12,11 +18,23 @@ def data_capture():
 
 
 def test_create_build_stats(data_capture):
-    stats = data_capture.build_starts()
+    stats = data_capture.build_stats()
     assert Stats == type(stats)
+
+
+@pytest.mark.parametrize("invalid_input", ["foo", "bar", 34 + 1j])
+def test_type_error_add(data_capture, invalid_input):
+    with pytest.raises(InvalidInputException):
+        data_capture.add(invalid_input)
 
 
 @pytest.mark.parametrize("negative_number", [-2, -3, -4, -5])
 def test_negative_number_add(data_capture, negative_number):
-    with pytest.raises(ValueError):
+    with pytest.raises(NegativeNumberException):
         data_capture.add(negative_number)
+
+
+def test_not_data_build_stats():
+    capture = DataCapture()
+    with pytest.raises(NoDataAvailableException):
+        capture.build_stats()
