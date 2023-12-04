@@ -1,13 +1,7 @@
-from typing import Dict, Set
-
 import pytest
 
-from exceptions import (
-    InvalidRangeException,
-    NegativeIndexException,
-    NegativeNumberException,
-)
-from main import Stats
+from exceptions import InvalidRangeException, NegativeIndexException
+from stats import Stats
 
 
 @pytest.fixture

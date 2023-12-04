@@ -1,11 +1,12 @@
 import pytest
 
+from data_capture import DataCapture
 from exceptions import (
     InvalidInputException,
     NegativeNumberException,
     NoDataAvailableException,
 )
-from main import DataCapture, Stats
+from stats import Stats
 
 
 @pytest.fixture
