@@ -1,6 +1,7 @@
 from typing import Dict, List
 
-from validations import validate_input
+from exceptions import InvalidRangeException
+from validations import only_integer, only_positive
 
 
 class Stats:
@@ -31,7 +32,8 @@ class Stats:
 
         return prefix_sum
 
-    @validate_input
+    @only_positive
+    @only_integer
     def less(self, num: int) -> int:
         """
         Return the number of elements less than num
@@ -45,7 +47,8 @@ class Stats:
 
         return self.__prefix_sum[num - 1]
 
-    @validate_input
+    @only_positive
+    @only_integer
     def between(self, num1: int, num2: int) -> int:
         """
         Return the number of elements between num1 and num2
@@ -54,9 +57,12 @@ class Stats:
         :param num2:
         :return: number of elements between num1 and num2
         """
+        if num1 > num2 or num1 > self.__max_num or num2 > self.__max_num:
+            raise InvalidRangeException
         return self.__prefix_sum[num2] - self.__prefix_sum[(num1 - 1)]
 
-    @validate_input
+    @only_positive
+    @only_integer
     def greater(self, num: int) -> int:
         """
         Return the number of elements greater than num

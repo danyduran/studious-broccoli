@@ -3,7 +3,7 @@ from typing import Dict
 
 from exceptions import NoDataAvailableException
 from stats import Stats
-from validations import validate_input
+from validations import only_integer, only_positive
 
 
 class DataCapture:
@@ -18,7 +18,8 @@ class DataCapture:
         self.__nums: Dict[int, int] = defaultdict(int)
         self.__max_num = 0
 
-    @validate_input
+    @only_integer
+    @only_positive
     def add(self, num: int) -> None:
         """
         Add a number to the data capture object
