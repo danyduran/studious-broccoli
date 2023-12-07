@@ -1,13 +1,9 @@
 from collections import defaultdict
-from queue import PriorityQueue
 from typing import Dict
 
-from exceptions import (
-    InvalidInputException,
-    NegativeNumberException,
-    NoDataAvailableException,
-)
+from exceptions import NoDataAvailableException
 from stats import Stats
+from validations import validate_input
 
 
 class DataCapture:
@@ -20,8 +16,9 @@ class DataCapture:
         Initialize the data capture object
         """
         self.__nums: Dict[int, int] = defaultdict(int)
-        self.__unique_nums: PriorityQueue = PriorityQueue()
+        self.__max_num = 0
 
+    @validate_input
     def add(self, num: int) -> None:
         """
         Add a number to the data capture object
@@ -29,16 +26,8 @@ class DataCapture:
         :return: None
         """
 
-        if not isinstance(num, int):
-            raise InvalidInputException
-
-        if num < 0:
-            raise NegativeNumberException
-
-        if num not in self.__nums:
-            self.__unique_nums.put(num)
-
         self.__nums[num] += 1
+        self.__max_num = max(self.__max_num, num)
 
     def build_stats(self) -> Stats:
         """
@@ -49,4 +38,4 @@ class DataCapture:
         if not self.__nums:
             raise NoDataAvailableException
 
-        return Stats(self.__nums, self.__unique_nums.queue)
+        return Stats(self.__nums, self.__max_num)

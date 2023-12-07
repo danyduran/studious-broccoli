@@ -1,14 +1,14 @@
 import pytest
 
-from exceptions import InvalidRangeException, NegativeIndexException
+from exceptions import InvalidRangeException, NegativeNumberException
 from stats import Stats
 
 
 @pytest.fixture
 def data():
     nums_count = {3: 2, 4: 1, 6: 1, 9: 1}
-    unique_nums = [3, 4, 6, 9]
-    return nums_count, unique_nums
+    max_num = 9
+    return nums_count, max_num
 
 
 @pytest.fixture
@@ -18,7 +18,7 @@ def stats(data):
 
 @pytest.mark.parametrize("negative_num", [-1, -2, -3])
 def test_negative_number_less(stats, negative_num):
-    with pytest.raises(NegativeIndexException):
+    with pytest.raises(NegativeNumberException):
         stats.less(negative_num)
 
 
@@ -31,7 +31,7 @@ def test_less(stats):
 
 @pytest.mark.parametrize("num1, num2", [(-1, 3), (3, -1)])
 def test_negative_number_between(stats, num1, num2):
-    with pytest.raises(NegativeIndexException):
+    with pytest.raises(NegativeNumberException):
         stats.between(num1, num2)
 
 
@@ -48,7 +48,7 @@ def test_between(stats):
 
 @pytest.mark.parametrize("num", [-1, -2, -3])
 def test_greater_negative_index(stats, num):
-    with pytest.raises(NegativeIndexException):
+    with pytest.raises(NegativeNumberException):
         stats.greater(num)
 
 

@@ -2,7 +2,7 @@ import pytest
 
 from data_capture import DataCapture
 from exceptions import (
-    InvalidInputException,
+    IntegerException,
     NegativeNumberException,
     NoDataAvailableException,
 )
@@ -25,7 +25,7 @@ def test_create_build_stats(data_capture):
 
 @pytest.mark.parametrize("invalid_input", ["foo", "bar", 34 + 1j])
 def test_type_error_add(data_capture, invalid_input):
-    with pytest.raises(InvalidInputException):
+    with pytest.raises(IntegerException):
         data_capture.add(invalid_input)
 
 
